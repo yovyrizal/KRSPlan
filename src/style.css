@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-app-bg: #E8EBF7;
+  --color-app-green: #21A179;
+  --color-app-green-dark: #1A8A68;
+  --color-app-green-light: #DFF3EC;
+  --color-app-yellow: #F7B32B;
+  --color-app-yellow-dark: #E2A012;
+  --color-app-red: #DA3E52;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}

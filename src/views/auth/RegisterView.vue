@@ -10,11 +10,9 @@ const isSubmitting = ref(false)
 async function handleSubmit() {
   isSubmitting.value = true
   try {
-    // TODO: ganti dengan pemanggilan API register asli
-    await new Promise((resolve) => setTimeout(resolve, 600))
-    router.push({ name: 'email-verification', query: { email: form.value.email } })
-  } finally {
-    isSubmitting.value = false
+    
+  } catch (error) {
+    
   }
 }
 </script>
@@ -39,6 +37,11 @@ async function handleSubmit() {
         <div>
           <label class="block text-sm font-semibold text-gray-800 mb-1.5" for="password">Password</label>
           <input id="password" v-model="form.password" type="password" required placeholder="••••••••••••"
+            class="w-full rounded-lg bg-gray-100 px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-app-green/20 focus:outline-none transition" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-800 mb-1.5" for="repeatPassword">Konfirmasi Password</label>
+          <input id="repeatPassword" v-model="form.password" type="password" required placeholder="••••••••••••"
             class="w-full rounded-lg bg-gray-100 px-4 py-2.5 text-sm text-gray-700 placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-app-green/20 focus:outline-none transition" />
         </div>
 

@@ -18,8 +18,7 @@ async function handleSubmit() {
     // TODO: ganti dengan pemanggilan API login asli (lihat src/services/apiClient.js)
     await new Promise((resolve) => setTimeout(resolve, 600))
     authStore.login({
-      user: { id: 1, name: 'Mahasiswa', email: form.value.email, role: 'user' },
-      token: 'dummy-token',
+      user: { id: 1, name: 'Mahasiswa', email: form.value.email},
     })
     router.push({ name: 'dashboard' })
   } catch {

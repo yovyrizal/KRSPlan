@@ -1,27 +1,32 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { Mail, ShieldCheck, Headset, ArrowLeft, ArrowRight } from 'lucide-vue-next'
-import OtpInput from '@/components/auth/OtpInput.vue'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { Mail, ShieldCheck, Headset, ArrowLeft } from 'lucide-vue-next'
+import { verifyEmail } from '@/services/AuthService'
 
-const router = useRouter()
 const route = useRoute()
-const code = ref('')
+const message = ref('Kami telah mengirimkan link verifikasi ke email kamu. Silakan buka email dan klik link tersebut. (Cek juga folder spam)')
 const isSubmitting = ref(false)
+const isVerified = ref(false)
+const errorMsg = ref('')
 
-async function handleVerify() {
-  if (code.value.length < 6) return
+onMounted(async () => {
+  const token = route.query.token
+  if (!token) return
+
   isSubmitting.value = true
+  errorMsg.value = ''
+
   try {
-    await new Promise((resolve) => setTimeout(resolve, 600))
-    router.push({ name: 'login' })
+    const result = await verifyEmail(token)
+    message.value = result.message || 'Email berhasil diverifikasi.'
+    isVerified.value = true
+  } catch (error) {
+    errorMsg.value = error.response?.data?.error || error.response?.data?.message || 'Verifikasi gagal, silakan coba lagi.'
   } finally {
     isSubmitting.value = false
   }
-}
-
-function resendCode() {
-}
+})
 </script>
 
 <template>
@@ -37,24 +42,14 @@ function resendCode() {
 
         <h2 class="text-xl font-bold text-app-green mb-2">Verifikasi Email Kamu</h2>
         <p class="text-sm text-gray-500 mb-6">
-          Kami telah mengirimkan kode verifikasi ke email kamu. Silakan masukkan kode tersebut di bawah ini.
+          {{ message }}
         </p>
 
-        <OtpInput v-model="code" :length="6" class="mb-6" />
+        <p v-if="errorMsg" class="text-sm text-app-red mb-4">{{ errorMsg }}</p>
 
-        <button
-          type="button" :disabled="isSubmitting || code.length < 6"
-          class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-app-green hover:bg-app-green-dark text-white font-semibold py-2.5 transition-colors disabled:opacity-50"
-          @click="handleVerify"
-        >
-          {{ isSubmitting ? 'Memverifikasi...' : 'Verifikasi' }}
-          <ArrowRight class="w-4 h-4" />
-        </button>
-
-        <p class="text-sm text-gray-500 mt-5">
-          Belum menerima kode?
-          <button type="button" class="text-app-green font-semibold hover:underline" @click="resendCode">Kirim ulang kode</button>
-        </p>
+        <div v-if="isVerified" class="rounded-lg bg-app-green-light p-3 text-sm text-app-green mb-4">
+          Email kamu sudah berhasil diverifikasi.
+        </div>
 
         <RouterLink :to="{ name: 'login' }" class="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 mt-4 uppercase tracking-wide">
           <ArrowLeft class="w-3 h-3" /> Ganti Alamat Email

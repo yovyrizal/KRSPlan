@@ -1,11 +1,17 @@
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useScheduleStore } from '@/stores/scheduleStore'
 import SemesterCard from '@/components/dashboard/SemesterCard.vue'
 import AddPlanCard from '@/components/dashboard/AddPlanCard.vue'
 
+const router = useRouter()
 const scheduleStore = useScheduleStore()
 const plans = computed(() => scheduleStore.plans)
+
+function goToCreatePlan() {
+  router.push({ name: 'buat-rencana' })
+}
 </script>
 
 <template>
@@ -18,7 +24,7 @@ const plans = computed(() => scheduleStore.plans)
       <button
         type="button"
         class="inline-flex items-center gap-2 rounded-lg bg-app-green hover:bg-app-green-dark text-white text-sm font-semibold px-4 py-2.5 transition-colors"
-        @click="scheduleStore.addPlan()"
+        @click="goToCreatePlan"
       >
         <span class="text-lg leading-none">+</span> Tambah rencana
       </button>
@@ -26,7 +32,7 @@ const plans = computed(() => scheduleStore.plans)
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <SemesterCard v-for="plan in plans" :key="plan.id" :plan="plan" />
-      <AddPlanCard @click="scheduleStore.addPlan()" />
+      <AddPlanCard @click="goToCreatePlan" />
     </div>
   </div>
 </template>

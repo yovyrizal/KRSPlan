@@ -1,40 +1,42 @@
 <script setup>
-import { Target, Sparkles, Users } from 'lucide-vue-next'
+import TeamMemberCard from '@/components/common/TeamMemberCard.vue'
+
+const developers = [
+  { name: 'Dito', role: 'Frontend Developer', photoUrl: null },
+  { name: 'Yovy', role: 'Backend Developer', photoUrl: null },
+]
+
+// TODO: ganti "Nama Kating X" dengan nama asli
+const credits = [
+  { name: 'Kak Guntur', role: '', photoUrl: null },
+  { name: 'Kak Ivan', role: '', photoUrl: null },
+  { name: 'Siapa lagi Yov?', role: '', photoUrl: null },
+]
 </script>
 
 <template>
-  <div class="max-w-2xl">
-    <h1 class="text-2xl font-bold text-gray-900 mb-1">Tentang Kami</h1>
-    <p class="text-gray-500 text-sm mb-6">Kenapa KRSPlan dibuat.</p>
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-xl font-bold text-gray-900 uppercase tracking-wide text-center mb-10">Tentang Kami</h1>
 
-    <div class="bg-white rounded-2xl p-6 shadow-sm space-y-6">
-      <p class="text-gray-700 text-sm leading-relaxed">
-        KRSPlan dibuat untuk membantu mahasiswa menyusun rencana jadwal KRS tanpa takut bentrok,
-        supaya proses pengisian KRS di awal semester jadi lebih cepat dan nggak bikin panik.
-      </p>
-      <div class="grid sm:grid-cols-3 gap-5">
-        <div class="text-center">
-          <div class="w-10 h-10 mx-auto rounded-full bg-app-green-light flex items-center justify-center mb-2">
-            <Target class="w-5 h-5 text-app-green" />
-          </div>
-          <p class="text-sm font-semibold text-gray-900">Fokus</p>
-          <p class="text-xs text-gray-500">Bebas jadwal bentrok</p>
-        </div>
-        <div class="text-center">
-          <div class="w-10 h-10 mx-auto rounded-full bg-app-yellow/20 flex items-center justify-center mb-2">
-            <Sparkles class="w-5 h-5 text-app-yellow-dark" />
-          </div>
-          <p class="text-sm font-semibold text-gray-900">Cepat</p>
-          <p class="text-xs text-gray-500">Visualisasi otomatis</p>
-        </div>
-        <div class="text-center">
-          <div class="w-10 h-10 mx-auto rounded-full bg-app-red/10 flex items-center justify-center mb-2">
-            <Users class="w-5 h-5 text-app-red" />
-          </div>
-          <p class="text-sm font-semibold text-gray-900">Untuk Mahasiswa</p>
-          <p class="text-xs text-gray-500">Dari kebutuhan nyata</p>
-        </div>
+    <section class="mb-10">
+      <h2 class="text-lg font-bold text-gray-900 mb-4">Developer</h2>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <TeamMemberCard
+          v-for="(person, idx) in developers" :key="person.name"
+          :index="idx" v-bind="person"
+        />
       </div>
-    </div>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-bold text-gray-900 mb-1">Credit</h2>
+      <p class="text-sm text-gray-500 mb-4">Kating yang menginspirasi kami membuat KRSPlan.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <TeamMemberCard
+          v-for="(person, idx) in credits" :key="person.name"
+          :index="idx" v-bind="person"
+        />
+      </div>
+    </section>
   </div>
 </template>

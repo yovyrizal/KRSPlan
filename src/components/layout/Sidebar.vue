@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import {
   LayoutDashboard, ClipboardList, FilePlus2,
-  MessageSquareText, Info, UserRound, ShieldCheck,
+  MessageSquareText, Info, UserRound, ShieldCheck, LogOut,
 } from 'lucide-vue-next'
 
 defineProps({
@@ -12,6 +12,7 @@ defineProps({
 })
 
 const route = useRoute()
+const router = useRouter()
 const authStore = useAuthStore()
 
 const menuSections = computed(() => {
@@ -51,6 +52,12 @@ const menuSections = computed(() => {
 })
 
 const isActive = (itemName) => route.name === itemName
+
+function handleLogout() {
+  // TODO: kalau backend punya endpoint logout (invalidate token di server), panggil dulu di sini
+  authStore.logout()
+  router.push({ name: 'login' })
+}
 </script>
 
 <template>
@@ -87,5 +94,17 @@ const isActive = (itemName) => route.name === itemName
         </ul>
       </div>
     </nav>
+
+    <div class="px-3 py-4 border-t border-white/10 shrink-0">
+      <button
+        type="button"
+        class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium w-full transition-colors text-white/85 hover:bg-app-red/90 hover:text-white"
+        :class="collapsed ? 'justify-center' : ''"
+        @click="handleLogout"
+      >
+        <LogOut class="w-5 h-5 shrink-0" />
+        <span v-if="!collapsed">Logout</span>
+      </button>
+    </div>
   </aside>
 </template>

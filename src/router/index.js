@@ -10,7 +10,7 @@ const routes = [
     component: AuthLayout,
     meta: { requiresGuest: true },
     children: [
-      { path: '', redirect: { name: 'login' } }, // '/' otomatis ke /login
+      { path: '', redirect: { name: 'login' } },
       { path: 'login', name: 'login', component: () => import('@/views/auth/LoginView.vue') },
       { path: 'register', name: 'register', component: () => import('@/views/auth/RegisterView.vue') },
       { path: 'email-verification', name: 'email-verification', component: () => import('@/views/auth/EmailVerificationView.vue') },
@@ -25,6 +25,7 @@ const routes = [
       { path: 'dashboard', name: 'dashboard', component: () => import('@/views/dashboard/DashboardView.vue') },
       { path: 'rencana-saya', name: 'rencana-saya', component: () => import('@/views/RencanaSayaView.vue') },
       { path: 'buat-rencana', name: 'buat-rencana', component: () => import('@/views/BuatRencanaView.vue') },
+      { path: 'rencana/:id', name: 'rencana-detail', component: () => import('@/views/RencanaDetailView.vue') },
       { path: 'ulasan', name: 'ulasan', component: () => import('@/views/UlasanView.vue') },
       { path: 'tentang-kami', name: 'tentang-kami', component: () => import('@/views/TentangKamiView.vue') },
       { path: 'profil', name: 'profil', component: () => import('@/views/ProfilView.vue') },
@@ -65,5 +66,6 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
+
 
 export default router

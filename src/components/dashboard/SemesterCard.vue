@@ -11,12 +11,13 @@ function formatDate(dateString) {
 </script>
 
 <template>
-  <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+  <RouterLink
+    :to="{ name: 'rencana-detail', params: { id: plan.id } }"
+    class="block bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow"
+  >
     <div class="flex items-start justify-between mb-4">
       <h3 class="font-bold text-gray-900">{{ plan.title }}</h3>
-      <button type="button" class="text-gray-400 hover:text-app-green">
-        <Pencil class="w-4 h-4" />
-      </button>
+      <span class="text-gray-400"><Pencil class="w-4 h-4" /></span>
     </div>
     <p class="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
       <Plus class="w-3.5 h-3.5" /> Created at : {{ formatDate(plan.createdAt) }}
@@ -24,5 +25,5 @@ function formatDate(dateString) {
     <p class="flex items-center gap-1.5 text-xs text-gray-500">
       <RefreshCcw class="w-3.5 h-3.5" /> Last update : {{ formatDate(plan.updatedAt) }}
     </p>
-  </div>
+  </RouterLink>
 </template>

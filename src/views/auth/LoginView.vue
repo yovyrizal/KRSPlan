@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Eye, EyeOff } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/authStore'
+import { login as loginApi } from '@/services/AuthService.js'
 import AuthIllustrationPanel from '@/components/auth/AuthIllustrationPanel.vue'
 
 const router = useRouter()
@@ -88,12 +89,6 @@ async function handleSubmit() {
           <label
             class="inline-flex items-center gap-2 text-gray-600 cursor-pointer select-none"
           >
-            <input
-              v-model="form.remember"
-              type="checkbox"
-              class="rounded border-gray-300 text-app-yellow focus:ring-app-yellow/40"
-            />
-            Ingat saya
           </label>
           <a href="#" class="text-gray-700 hover:text-app-green font-medium"
             >Lupa Password</a

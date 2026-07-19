@@ -10,7 +10,7 @@ const routes = [
     component: AuthLayout,
     meta: { requiresGuest: true },
     children: [
-      { path: '', redirect: { name: 'login' } }, // '/' otomatis ke /login
+      { path: '', redirect: { name: 'login' } },
       { path: 'login', name: 'login', component: () => import('@/views/auth/LoginView.vue') },
       { path: 'register', name: 'register', component: () => import('@/views/auth/RegisterView.vue') },
       { path: 'email-verification', name: 'email-verification', component: () => import('@/views/auth/EmailVerificationView.vue') },
@@ -34,6 +34,12 @@ const routes = [
         component: () => import('@/views/admin/AdminDashboardView.vue'),
         meta: { requiresAdmin: true },
       },
+      {
+        path: 'admin/import-matkul',
+        name: 'admin-import-matkul',
+        component: () => import('@/views/admin/ImportMatkulView.vue'),
+        meta: { requiresAdmin: true },
+      },
     ],
   },
   {
@@ -51,19 +57,18 @@ const router = createRouter({
   },
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    return next({ name: 'login' })
+    return { name: 'login' }
   }
   if (to.meta.requiresAdmin && !authStore.isAdmin) {
-    return next({ name: 'dashboard' })
+    return { name: 'dashboard' }
   }
   if (to.meta.requiresGuest && authStore.isAuthenticated) {
-    return next({ name: 'dashboard' })
+    return { name: 'dashboard' }
   }
-  next()
 })
 
 export default router

@@ -1,10 +1,11 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import {
   LayoutDashboard, ClipboardList, FilePlus2,
   MessageSquareText, Info, UserRound, ShieldCheck,
+  LogOut,
 } from 'lucide-vue-next'
 
 defineProps({
@@ -12,7 +13,13 @@ defineProps({
 })
 
 const route = useRoute()
+const router = useRouter()
 const authStore = useAuthStore()
+
+function handleLogout() {
+  authStore.logout()
+  router.push({ name: 'login' })
+}
 
 const menuSections = computed(() => {
   const sections = [
@@ -44,6 +51,7 @@ const menuSections = computed(() => {
       label: 'Admin',
       items: [
         { name: 'admin-dashboard', label: 'Admin Dashboard', to: { name: 'admin-dashboard' }, icon: ShieldCheck },
+        { name: 'admin-import-matkul', label: 'Import Matkul', to: { name: 'admin-import-matkul' }, icon: FilePlus2 },
       ],
     })
   }
@@ -87,5 +95,17 @@ const isActive = (itemName) => route.name === itemName
         </ul>
       </div>
     </nav>
+
+    <div class="px-3 pb-5 shrink-0">
+      <button
+        type="button"
+        class="w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+        :class="collapsed ? 'justify-center' : ''"
+        @click="handleLogout"
+      >
+        <LogOut class="w-5 h-5 shrink-0" />
+        <span v-if="!collapsed">Logout</span>
+      </button>
+    </div>
   </aside>
 </template>
